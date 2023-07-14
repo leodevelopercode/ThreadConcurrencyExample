@@ -21,6 +21,21 @@ public class ThreadPoolService implements Runnable {
     private final GetSoilDeviceAllInfoService getSoilDeviceAllInfoService;
     private final GetWeatherDeviceAllInfoService getWeatherDeviceAllInfoService;
 
+    /**
+     * 线程池服务
+     *
+     * @param executorService                遗嘱执行人服务
+     * @param getAlarmNoticeRecordService    获得报警通知记录服务
+     * @param getRealTimeDataService         获取实时数据服务
+     * @param getSoilDeviceAllInfoService    得到土壤设备所有信息服务
+     * @param getWeatherDeviceAllInfoService 天气设备所有信息服务
+     *
+     * @see ExecutorService
+     * @see GetAlarmNoticeRecordService
+     * @see GetRealTimeDataService
+     * @see GetSoilDeviceAllInfoService
+     * @see GetWeatherDeviceAllInfoService
+     */
     public ThreadPoolService(ExecutorService executorService,
                              GetAlarmNoticeRecordService getAlarmNoticeRecordService,
                              GetRealTimeDataService getRealTimeDataService,
@@ -34,6 +49,9 @@ public class ThreadPoolService implements Runnable {
     }
 
 
+    /**
+     * 运行
+     */
     @Override
     public void run() {
 

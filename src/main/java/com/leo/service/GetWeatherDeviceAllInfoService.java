@@ -9,6 +9,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class GetWeatherDeviceAllInfoService {
 
+    /**
+     * 天气设备所有信息
+     */
     public void WeatherDeviceAllInfo(){
 
         System.out.println("GetWeatherDeviceAllInfoService:获取设备所有信息中...");

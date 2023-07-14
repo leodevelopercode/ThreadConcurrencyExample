@@ -10,6 +10,9 @@ import org.springframework.web.client.RestTemplate;
 @Service
 public class GetRealTimeDataService {
 
+    /**
+     * 实时数据
+     */
     public void RealTimeData(){
 
 
