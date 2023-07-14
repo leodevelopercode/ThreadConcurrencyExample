@@ -11,7 +11,7 @@ public class GetWeatherDeviceAllInfoService {
 
     public void WeatherDeviceAllInfo(){
 
-        System.out.println("获取设备所有信息中...");
+        System.out.println("GetWeatherDeviceAllInfoService:获取设备所有信息中...");
 
     }
 

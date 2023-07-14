@@ -11,7 +11,7 @@ public class GetSoilDeviceAllInfoService {
 
     public void SoilDeviceAllInfo(){
 
-        System.out.println("获取墒情设备所有信息中....");
+        System.out.println("GetSoilDeviceAllInfoService:获取墒情设备所有信息中....");
 
     }
 

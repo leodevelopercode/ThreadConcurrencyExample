@@ -1,6 +1,11 @@
 server:
   port: 9999
-
 spring:
+  redis:
+    ##redis 单机环境配置
+    port: 6379
+    database: 1
+    ssl: false
+    timeout: 15000
   profiles:
     active: dev

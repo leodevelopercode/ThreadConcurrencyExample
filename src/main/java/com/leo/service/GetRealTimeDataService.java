@@ -1,7 +1,7 @@
 package com.leo.service;
 
-import com.alibaba.fastjson2.JSONObject;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 /**
  * @author leo
@@ -12,8 +12,8 @@ public class GetRealTimeDataService {
 
     public void RealTimeData(){
 
-        System.out.println("获取设备实时记录中...");
 
+        System.out.println("GetRealTimeDataService:获取设备实时记录中...");
 
     }
 
