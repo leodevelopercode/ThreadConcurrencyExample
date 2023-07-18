@@ -4,9 +4,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
-import java.util.function.Consumer;
 
 /**
  * @author leo
@@ -20,6 +18,7 @@ public class ThreadPoolService implements Runnable {
     private final GetRealTimeDataService getRealTimeDataService;
     private final GetSoilDeviceAllInfoService getSoilDeviceAllInfoService;
     private final GetWeatherDeviceAllInfoService getWeatherDeviceAllInfoService;
+    private final GetPeopleSoftOpenApiService getPeopleSoftOpenApiService;
 
     /**
      * 线程池服务
@@ -29,7 +28,7 @@ public class ThreadPoolService implements Runnable {
      * @param getRealTimeDataService         获取实时数据服务
      * @param getSoilDeviceAllInfoService    得到土壤设备所有信息服务
      * @param getWeatherDeviceAllInfoService 天气设备所有信息服务
-     *
+     * @param getPeopleSoftOpenApiService    获取第三方TOKEN
      * @see ExecutorService
      * @see GetAlarmNoticeRecordService
      * @see GetRealTimeDataService
@@ -40,12 +39,14 @@ public class ThreadPoolService implements Runnable {
                              GetAlarmNoticeRecordService getAlarmNoticeRecordService,
                              GetRealTimeDataService getRealTimeDataService,
                              GetSoilDeviceAllInfoService getSoilDeviceAllInfoService,
-                             GetWeatherDeviceAllInfoService getWeatherDeviceAllInfoService) {
+                             GetWeatherDeviceAllInfoService getWeatherDeviceAllInfoService,
+                             GetPeopleSoftOpenApiService getPeopleSoftOpenApiService) {
         this.executorService = executorService;
         this.getAlarmNoticeRecordService = getAlarmNoticeRecordService;
         this.getRealTimeDataService = getRealTimeDataService;
         this.getSoilDeviceAllInfoService = getSoilDeviceAllInfoService;
         this.getWeatherDeviceAllInfoService = getWeatherDeviceAllInfoService;
+        this.getPeopleSoftOpenApiService = getPeopleSoftOpenApiService;
     }
 
 
@@ -57,6 +58,8 @@ public class ThreadPoolService implements Runnable {
 
         List<Runnable> runnableList = new ArrayList<>();
 
+        runnableList.add(getPeopleSoftOpenApiService::getPeopleSoftOpenapi);
+
         runnableList.add(getAlarmNoticeRecordService::AlarmNoticeRecord);
 
         runnableList.add(getRealTimeDataService::RealTimeData);
@@ -66,7 +69,7 @@ public class ThreadPoolService implements Runnable {
         runnableList.add(getWeatherDeviceAllInfoService::WeatherDeviceAllInfo);
 
         runnableList.forEach(runnable -> {
-//            executorService.execute(runnable);
+            executorService.execute(runnable);
             System.out.println("ThreadPoolService.accept");
         });
 

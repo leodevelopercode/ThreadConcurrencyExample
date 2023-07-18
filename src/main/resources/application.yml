@@ -4,7 +4,7 @@ spring:
   redis:
     ##redis 单机环境配置
     port: 6379
-    database: 1
+    database: 0
     ssl: false
     timeout: 15000
   profiles:
