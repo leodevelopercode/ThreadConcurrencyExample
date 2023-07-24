@@ -14,6 +14,10 @@ public class DeviceAllInfoDTO {
 	 */
 	private String deviceAddr;
 	/**
+	 * 设备类型
+	 */
+	private String deviceType;
+	/**
 	 * 设备名称
 	 */
 	private String deviceName;
@@ -33,6 +37,12 @@ public class DeviceAllInfoDTO {
 	 * 离线判断间隔（分钟）
 	 */
 	private Integer offlineInterval;
+
+	private Integer deviceEnabled;
+
+	private String city;
+
+	private String createTime;
 
 
 

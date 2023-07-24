@@ -31,7 +31,8 @@ public class GetTokenTest {
         RestTemplate restTemplate = new RestTemplate();
 
         Map<String, Object> requestMap = new HashMap<>();
-
+        requestMap.put("loginName", "cq230614yny");
+        requestMap.put("loginPwd", "cq230614yny");
 
         ResponseEntity<String> stringResponseEntity = restTemplate.postForEntity(
                 PeopleSoftOpenApiConstant.GLOBAL_USER_LOGIN,

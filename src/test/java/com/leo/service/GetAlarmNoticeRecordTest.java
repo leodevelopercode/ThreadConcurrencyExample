@@ -1,5 +1,6 @@
 package com.leo.service;
 
+import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.leo.constant.PeopleSoftOpenApiConstant;
 import com.leo.dto.AlarmNoticeRecordDTO;
@@ -21,7 +22,7 @@ import java.util.*;
  */
 public class GetAlarmNoticeRecordTest {
 
-    private final static String TOKEN = "116291689643718446";
+    private final static String TOKEN = "499591689907547583";
 
     /**
      * 获取设备报警统计记录信息
@@ -37,26 +38,40 @@ public class GetAlarmNoticeRecordTest {
         // 创建HttpEntity对象，将请求体和请求头信息放入其中
         HttpEntity<String> httpEntity = new HttpEntity<>(headers);
 
-        String beginTime = "2023-07-04 11:39:58";
-        String endTime = "2023-07-10 11:39:58";
+
+
+        String beginTime = "2023-07-10 11:39:58";
+        String endTime = "2023-07-21 11:39:58";
         String deviceAddr = "0615230001";
 
 
         String url = PeopleSoftOpenApiConstant.GLOBAL_ALARM_RECORD + "?" +
                 "beginTime=" + beginTime +
-                "&endTime=" + endTime +
-                "&deviceAddr=" + deviceAddr;
+                "&endTime=" + endTime ;
 
         // 发送POST请求
-        ResponseEntity<AlarmNoticeRecordDTO> responseEntity = restTemplate.exchange(
+        ResponseEntity<String> responseEntity = restTemplate.exchange(
                 url,
                 HttpMethod.GET,
                 httpEntity,
-                AlarmNoticeRecordDTO.class
+                String.class
         );
+
+        String body = responseEntity.getBody();
+
+        JSONObject jsonObject = JSONObject.parseObject(body);
+
+        String  data = jsonObject.getString("data");
+
+        List<AlarmNoticeRecordDTO> alarmNoticeRecordDTOS = JSONObject.parseArray(data, AlarmNoticeRecordDTO.class);
+
+
+        alarmNoticeRecordDTOS.forEach(System.out::println);
+
 
         System.out.println("responseEntity.getStatusCode() = " + responseEntity.getStatusCode());
         System.out.println("responseEntity.getBody() = " + responseEntity.getBody());
+
 
     }
 
