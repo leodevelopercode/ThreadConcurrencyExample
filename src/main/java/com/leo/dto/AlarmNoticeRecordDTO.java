@@ -2,7 +2,6 @@ package com.leo.dto;
 
 import lombok.Data;
 
-import java.util.Date;
 
 /**
  * 设备报警通知记录数据传输
@@ -48,7 +47,7 @@ public class AlarmNoticeRecordDTO {
 	/**
 	 * 创建时间
 	 */
-	private Date createTime;
+	private String createTime;
 
 
 }

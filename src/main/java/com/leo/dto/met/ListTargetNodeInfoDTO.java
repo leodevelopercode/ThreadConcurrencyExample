@@ -1,8 +1,12 @@
-package com.leo.dto;
+package com.leo.dto.met;
 
 import lombok.Data;
 
+import java.util.List;
+
 /**
+ * 气象设备--根据设备地址获取节点信息
+ *
  * @author leo
  * @version 1.0
  */
@@ -104,5 +108,7 @@ public class ListTargetNodeInfoDTO {
 	 * 开关量报警类型（0 不报警 1 闭合报警 2 断开报警）
 	 */
 	private Integer switchAlarmType;
+
+	private List<String> regulatingInfoList;
 
 }

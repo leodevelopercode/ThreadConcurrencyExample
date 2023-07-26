@@ -3,6 +3,8 @@ package com.leo.dto;
 import com.leo.entities.NodeInfoList;
 import lombok.Data;
 
+import java.util.List;
+
 /**
  * 气象设备--获取所有设备信息
  *
@@ -24,6 +26,6 @@ public class WeatherDeviceAllInfoDTO {
 
 	private Integer offlineInterval;
 
-	private NodeInfoList nodeInfoList;
+	private List<NodeInfoList> nodeInfoList;
 
 }

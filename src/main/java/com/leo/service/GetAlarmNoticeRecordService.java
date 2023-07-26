@@ -24,6 +24,7 @@ public class GetAlarmNoticeRecordService {
     public void RestTemplateAlarmNoticeRecord() {
 
 
+
     }
 
 

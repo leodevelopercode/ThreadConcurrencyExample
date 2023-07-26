@@ -1,8 +1,9 @@
 package com.leo.service;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.leo.constant.PeopleSoftOpenApiConstant;
-import com.leo.dto.DeviceAllInfoDTO;
+import com.leo.dto.AlarmNoticeRecordDTO;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -16,26 +17,24 @@ import java.util.List;
  * @author leo
  * @version 1.0
  */
-public class GetWeatherDeviceAllInfoTest {
+public class GetGlobalAPIInfomationTest {
 
-    public String TOKEN = "540091690182776887";
+    public String TOKEN = "305291690337089044";
 
-    public final String deviceAddr = "0615230001";
-
-    /**
-     * 虫情设备--批量获取设备详情
-     */
     @Test
-    public void getWeatherDeviceAllInfo() {
+    public void getAlarmInformation(){
 
         RestTemplate restTemplate = new RestTemplate();
 
-        String url = PeopleSoftOpenApiConstant.WORM_BTCH_DEVICE_DETAIL + "?deviceAddr=" + deviceAddr;
-
         HttpHeaders headers = new HttpHeaders();
-        headers.set("token", TOKEN);
+
+        headers.set("token",TOKEN);
 
         HttpEntity<String> httpEntity = new HttpEntity<>(headers);
+
+        String url = PeopleSoftOpenApiConstant.GLOBAL_ALARM_RECORD +
+                "?beginTime=2023-07-10 11:39:58" +
+                "&endTime=2023-07-21 11:39:58";
 
         ResponseEntity<String> responseEntity = restTemplate.exchange(
                 url,
@@ -44,20 +43,19 @@ public class GetWeatherDeviceAllInfoTest {
                 String.class
         );
 
-        String body = responseEntity.getBody();
+        JSONObject jsonObject = JSON.parseObject(responseEntity.getBody());
 
-        JSONObject jsonObject = JSONObject.parseObject(body);
+        String jsonObjectString = jsonObject.getString("data");
 
-        String data = jsonObject.getString("data");
+        List<AlarmNoticeRecordDTO> alarmNoticeRecordDTOS = JSONObject.parseArray(jsonObjectString, AlarmNoticeRecordDTO.class);
 
-        List<DeviceAllInfoDTO> deviceAllInfoDTOS = JSONObject.parseArray(
-                data,
-                DeviceAllInfoDTO.class
-        );
-
-        deviceAllInfoDTOS.forEach(System.out::println);
+        alarmNoticeRecordDTOS.forEach(System.out::println);
 
 
     }
+
+
+
+
 
 }

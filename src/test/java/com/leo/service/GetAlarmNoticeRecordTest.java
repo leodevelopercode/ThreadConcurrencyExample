@@ -1,20 +1,21 @@
 package com.leo.service;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.leo.constant.PeopleSoftOpenApiConstant;
 import com.leo.dto.AlarmNoticeRecordDTO;
 import com.leo.dto.UserDeviceDTO;
 import com.leo.dto.UserGroupDTO;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
-import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author leo
@@ -22,7 +23,7 @@ import java.util.*;
  */
 public class GetAlarmNoticeRecordTest {
 
-    private final static String TOKEN = "499591689907547583";
+    private final static String TOKEN = "540091690182776887";
 
     /**
      * 获取设备报警统计记录信息
@@ -95,22 +96,29 @@ public class GetAlarmNoticeRecordTest {
                 String.class
         );
 
-        ObjectMapper objectMapper = new ObjectMapper();
-        try {
-            // 解析JSON字符串中的"data"字段，转换为对象列表
-            List<UserDeviceDTO> dataList = objectMapper.readValue(
-                    objectMapper.readTree(responseEntity.getBody()).get("data").toString(),
-                    objectMapper.getTypeFactory().constructCollectionType(List.class, UserDeviceDTO.class)
-            );
 
-            // 处理 dataList，这里是你的业务逻辑
-            for (UserDeviceDTO userDeviceDTO : dataList) {
-                System.out.println(userDeviceDTO.getDeviceAddr());
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-            // 处理异常
-        }
+        JSONObject jsonObject = JSON.parseObject(responseEntity.getBody());
+        String jsonObjectString = jsonObject.getString("data");
+        List<UserDeviceDTO> userDeviceDTOS = JSONObject.parseArray(jsonObjectString, UserDeviceDTO.class);
+        userDeviceDTOS.forEach(System.out::println);
+
+
+//        ObjectMapper objectMapper = new ObjectMapper();
+//        try {
+//            // 解析JSON字符串中的"data"字段，转换为对象列表
+//            List<UserDeviceDTO> dataList = objectMapper.readValue(
+//                    objectMapper.readTree(responseEntity.getBody()).get("data").toString(),
+//                    objectMapper.getTypeFactory().constructCollectionType(List.class, UserDeviceDTO.class)
+//            );
+//
+//            // 处理 dataList，这里是你的业务逻辑
+//            for (UserDeviceDTO userDeviceDTO : dataList) {
+//                System.out.println(userDeviceDTO.getDeviceAddr());
+//            }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//            // 处理异常
+//        }
 
     }
 
@@ -135,20 +143,21 @@ public class GetAlarmNoticeRecordTest {
 
         System.out.println("responseEntity.getBody() = " + responseEntity.getBody());
 
+        JSONObject jsonObject = JSON.parseObject(responseEntity.getBody());
 
-        ObjectMapper objectMapper = new ObjectMapper();
-        try {
+        String jsonObjectString = jsonObject.getString("data");
 
-            UserGroupDTO userGroupDTO = objectMapper.readValue(responseEntity.getBody(), UserGroupDTO.class);
+        List<UserGroupDTO> userGroupDTOS = JSONObject.parseArray(jsonObjectString, UserGroupDTO.class);
 
-            System.out.println("userGroupDTO.getCode() = " + userGroupDTO.getCode());
+        UserGroupDTO userGroupDTO1 = userGroupDTOS.stream()
+                .map(userGroupDTO -> {
+                    UserGroupDTO copyUserGroupDTO = new UserGroupDTO();
+                    BeanUtils.copyProperties(userGroupDTO, copyUserGroupDTO);
+                    return copyUserGroupDTO;
+                })
+                .collect(Collectors.toList()).get(0);
 
-            System.out.println("userGroupDTO = " + userGroupDTO);
-        } catch (IOException e) {
-            e.printStackTrace();
-            // 处理异常
-        }
-
+        System.out.println("userGroupDTO = " + userGroupDTO1);
 
 
     }
